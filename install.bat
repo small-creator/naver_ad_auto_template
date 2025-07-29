@@ -138,24 +138,62 @@ echo.
 echo 🎭 Playwright 브라우저 설치 중...
 playwright install chromium
 
-REM .env 파일 생성
+REM .env 파일 설정
 echo.
-echo 🔧 환경변수 설정 파일 생성 중...
+echo 🔧 환경변수 설정 파일 확인 중...
+
 if not exist ".env" (
-    echo # 로그인 정보 > .env
-    echo LOGIN_ID=여기에_로그인_ID_입력 >> .env
-    echo LOGIN_PASSWORD=여기에_비밀번호_입력 >> .env
-    echo. >> .env
-    echo # 부동산 중개업소 ID >> .env
-    echo REALTOR_ID=여기에_중개업소_ID_입력 >> .env
-    echo. >> .env
-    echo # GitHub 저장소 경로 (자동 설정됨) >> .env
-    echo GITHUB_REPO_PATH=%USERPROFILE%\Desktop\cursor\github_repos\%REPO_NAME% >> .env
+    echo ℹ️  .env 템플릿 파일이 이미 압축파일에 포함되어 있습니다.
+    echo 💡 .env 파일을 편집하여 다음 정보를 입력해주세요:
+    echo    - LOGIN_ID: 로그인 아이디
+    echo    - LOGIN_PASSWORD: 로그인 비밀번호  
+    echo    - REALTOR_ID: 중개업소 ID
+    echo.
     
-    echo ✅ .env 파일이 생성되었습니다.
-    echo ⚠️  .env 파일을 편집하여 로그인 정보를 입력해주세요.
+    if "%INSTALL_CHOICE%"=="1" (
+        echo ✅ GitHub 저장소 경로가 자동으로 설정됩니다.
+        REM GITHUB_REPO_PATH를 .env 파일에 추가/업데이트
+        powershell -Command "& {
+            $envContent = Get-Content '.env' -Raw
+            $newPath = 'GITHUB_REPO_PATH=%GITHUB_PATH%'
+            if ($envContent -match 'GITHUB_REPO_PATH=.*') {
+                $envContent = $envContent -replace 'GITHUB_REPO_PATH=.*', $newPath
+            } else {
+                $envContent += \"`n$newPath\"
+            }
+            Set-Content '.env' $envContent -NoNewline
+        }"
+    ) else (
+        echo ⚠️  GitHub Actions 기능은 사용할 수 없습니다.
+        REM 로컬 전용 모드 표시
+        powershell -Command "& {
+            $envContent = Get-Content '.env' -Raw
+            $newPath = 'GITHUB_REPO_PATH=로컬전용모드'
+            if ($envContent -match 'GITHUB_REPO_PATH=.*') {
+                $envContent = $envContent -replace 'GITHUB_REPO_PATH=.*', $newPath
+            } else {
+                $envContent += \"`n$newPath\"
+            }
+            Set-Content '.env' $envContent -NoNewline
+        }"
+    )
 ) else (
-    echo ℹ️  .env 파일이 이미 존재합니다.
+    echo ✅ .env 파일이 이미 존재합니다.
+    
+    if "%INSTALL_CHOICE%"=="1" (
+        echo 🔧 GitHub 저장소 경로를 자동으로 업데이트합니다...
+        REM 기존 .env 파일에서 GITHUB_REPO_PATH 업데이트
+        powershell -Command "& {
+            $envContent = Get-Content '.env' -Raw
+            $newPath = 'GITHUB_REPO_PATH=%GITHUB_PATH%'
+            if ($envContent -match 'GITHUB_REPO_PATH=.*') {
+                $envContent = $envContent -replace 'GITHUB_REPO_PATH=.*', $newPath
+            } else {
+                $envContent += \"`n$newPath\"
+            }
+            Set-Content '.env' $envContent -NoNewline
+        }"
+    )
 )
 
 REM 실행 배치 파일 생성
