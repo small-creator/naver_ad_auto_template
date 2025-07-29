@@ -42,9 +42,14 @@ echo ✅ Git 설치 확인됨
 REM 작업 디렉토리 생성
 echo.
 echo 📁 작업 폴더 생성 중...
-cd /d "%USERPROFILE%\Desktop"
-if not exist "cursor" mkdir cursor
-cd cursor
+if not exist "%USERPROFILE%\Desktop\property_automation" (
+    mkdir "%USERPROFILE%\Desktop\property_automation"
+    echo ✅ 작업 폴더 생성: %USERPROFILE%\Desktop\property_automation
+) else (
+    echo ℹ️  기존 작업 폴더 사용: %USERPROFILE%\Desktop\property_automation
+)
+
+cd /d "%USERPROFILE%\Desktop\property_automation"
 
 REM 로컬 클라이언트 다운로드
 echo.
@@ -53,17 +58,17 @@ echo 📥 로컬 클라이언트 다운로드 중...
 REM PowerShell을 사용하여 최신 릴리즈 다운로드
 powershell -Command "& {
     try {
-        $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/small-creator/property-automation-client/releases/latest'
-        $downloadUrl = $latestRelease.assets | Where-Object { $_.name -eq 'property-automation-client.zip' } | Select-Object -ExpandProperty browser_download_url
+        $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/small-creator/naver_ad_auto_pc/releases/latest'
+        $downloadUrl = $latestRelease.assets | Where-Object { $_.name -eq '매물자동화시스템_v1.0.0.zip' } | Select-Object -ExpandProperty browser_download_url
         
         if ($downloadUrl) {
             Write-Host '📦 최신 버전 다운로드 중...' -ForegroundColor Green
-            Invoke-WebRequest -Uri $downloadUrl -OutFile 'property-automation-client.zip'
+            Invoke-WebRequest -Uri $downloadUrl -OutFile '매물자동화시스템_v1.0.0.zip'
             
             Write-Host '📂 압축 해제 중...' -ForegroundColor Green
-            Expand-Archive -Path 'property-automation-client.zip' -DestinationPath 'property_ad_auto_git' -Force
+            Expand-Archive -Path '매물자동화시스템_v1.0.0.zip' -DestinationPath 'property_ad_auto_git' -Force
             
-            Remove-Item 'property-automation-client.zip'
+            Remove-Item '매물자동화시스템_v1.0.0.zip'
             Write-Host '✅ 로컬 클라이언트 설치 완료' -ForegroundColor Green
         } else {
             Write-Host '❌ 다운로드 파일을 찾을 수 없습니다.' -ForegroundColor Red
@@ -208,14 +213,14 @@ REM 바탕화면 바로가기 생성
 echo.
 echo 🔗 바탕화면 바로가기 생성 중...
 set "shortcut_path=%USERPROFILE%\Desktop\매물자동화시스템.lnk"
-powershell -Command "$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut('%shortcut_path%'); $Shortcut.TargetPath = '%USERPROFILE%\Desktop\cursor\property_ad_auto_git\run.bat'; $Shortcut.WorkingDirectory = '%USERPROFILE%\Desktop\cursor\property_ad_auto_git'; $Shortcut.IconLocation = 'shell32.dll,137'; $Shortcut.Save()"
+powershell -Command "$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut('%shortcut_path%'); $Shortcut.TargetPath = '%USERPROFILE%\Desktop\property_automation\property_ad_auto_git\run.bat'; $Shortcut.WorkingDirectory = '%USERPROFILE%\Desktop\property_automation\property_ad_auto_git'; $Shortcut.IconLocation = 'shell32.dll,137'; $Shortcut.Save()"
 
 echo.
 echo ========================================
 echo  🎉 설치 완료!
 echo ========================================
 echo.
-echo 📍 설치 위치: %USERPROFILE%\Desktop\cursor\
+echo 📍 설치 위치: %USERPROFILE%\Desktop\property_automation\
 echo 🚀 실행 방법: 바탕화면의 "매물자동화시스템" 바로가기 클릭
 echo.
 echo ⚠️  다음 단계:
