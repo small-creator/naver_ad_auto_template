@@ -5,12 +5,16 @@ GitHub Actions를 통한 매물 광고 자동화 시스템입니다. 절전모�
 ## 🚀 빠른 시작
 
 ### 1️⃣ Template에서 저장소 생성
-1. **"Use this template"** 버튼 클릭
+1. **"Use this template"** 버튼 클릭 (페이지 상단 녹색 버튼)
 2. 새 저장소 이름 입력 (예: `my-property-automation`)
-3. **"Create repository from template"** 클릭
+3. **Private** 선택 권장 (개인정보 보호)
+4. **"Create repository from template"** 클릭
 
 ### 2️⃣ GitHub Secrets 설정
-생성된 저장소 → **Settings** → **Secrets and variables** → **Actions**에서 추가:
+생성된 저장소에서:
+1. **Settings** 탭 클릭
+2. **Secrets and variables** → **Actions** 클릭
+3. **New repository secret**으로 다음 추가:
 
 | Name | Value | 설명 |
 |------|-------|------|
@@ -18,10 +22,17 @@ GitHub Actions를 통한 매물 광고 자동화 시스템입니다. 절전모�
 | `LOGIN_PASSWORD` | 로그인 비밀번호 | 사이트 로그인용 |
 
 ### 3️⃣ 로컬 설치
-1. 생성한 저장소에서 **install.bat** 다운로드
-2. **우클릭** → **"관리자 권한으로 실행"**
-3. 생성한 저장소 URL 입력 (예: https://github.com/yourusername/my-property-automation.git)
-4. 안내에 따라 자동 설치 완료
+1. **생성한 저장소**에서 **install.bat** 클릭
+2. **Raw** 버튼 클릭 → **우클릭** → **"다른 이름으로 저장"** → `install.bat`
+3. **다운로드한 install.bat** 우클릭 → **"관리자 권한으로 실행"**
+4. **옵션 1 선택** (Template 저장소 사용)
+5. **생성한 저장소 URL 입력** (예: `https://github.com/yourusername/my-property-automation.git`)
+6. 안내에 따라 자동 설치 완료
+
+### 4️⃣ 사용 시작
+- 바탕화면의 **"매물자동화시스템"** 바로가기 실행
+- 📊 순위 조회 → 매물 선택 → ⏰ 최적화 예약
+- 매일 자정 1분에 GitHub Actions 자동 실행!
 
 ## 📋 시스템 요구사항
 
